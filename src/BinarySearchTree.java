@@ -52,7 +52,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     /**
      * Remove from the tree..
      * @param x the item to remove.
-    // * @throws ItemNotFoundException if x is not found.
+     * @throws ItemNotFoundException if x is not found.
      */
     public void remove( AnyType x )
     {
@@ -61,7 +61,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
     /**
      * Remove minimum item from the tree.
-    // * @throws ItemNotFoundException if tree is empty.
+     * @throws ItemNotFoundException if tree is empty.
      */
     public void removeMin( )
     {
@@ -148,12 +148,12 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
      * @param x the item to remove.
      * @param t the node that roots the tree.
      * @return the new root.
-    // * @throws ItemNotFoundException if x is not found.
+     * @throws ItemNotFoundException if x is not found.
      */
     protected BinaryNode<AnyType> remove( AnyType x, BinaryNode<AnyType> t )
     {
         if( t == null )
-            throw new IllegalArgumentException( x.toString( ) );
+            throw new ItemNotFoundException( x.toString( ) );
         if( x.compareTo( t.element ) < 0 )
             t.left = remove( x, t.left );
         else if( x.compareTo( t.element ) > 0 )
@@ -172,12 +172,12 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
      * Internal method to remove minimum item from a subtree.
      * @param t the node that roots the tree.
      * @return the new root.
-    // * @throws ItemNotFoundException if t is empty.
+     * @throws ItemNotFoundException if t is empty.
      */
     protected BinaryNode<AnyType> removeMin( BinaryNode<AnyType> t )
     {
         if( t == null )
-            throw new IllegalArgumentException( );
+            throw new ItemNotFoundException( );
         else if( t.left != null )
         {
             t.left = removeMin( t.left );
