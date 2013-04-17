@@ -61,7 +61,7 @@ class BinaryNode<AnyType>
     // Print tree rooted at current node using preorder traversal.
     public void printPreOrder(ArrayList<BinaryNode> binaryNodeArrayList)
     {
-        System.out.println( element );       // Node
+        //System.out.println( element );       // Node
         binaryNodeArrayList.add(this);
         if( left != null )
             left.printPreOrder(binaryNodeArrayList );           // Left
@@ -77,7 +77,7 @@ class BinaryNode<AnyType>
             left.printPostOrder(binaryNodeArrayList );          // Left
         if( right != null )
             right.printPostOrder(binaryNodeArrayList );         // Right
-        System.out.println( element );
+        //System.out.println( element );
         binaryNodeArrayList.add(this);// Node
     }
 
@@ -86,7 +86,7 @@ class BinaryNode<AnyType>
     {
         if( left != null )
             left.printInOrder( binaryNodeArrayList);            // Left
-        System.out.println( element );       // Node
+        //System.out.println( element );       // Node
         binaryNodeArrayList.add(this);
         if( right != null )
             right.printInOrder(binaryNodeArrayList );           // Right
@@ -107,10 +107,16 @@ class BinaryNode<AnyType>
         right = t;
     }
 
-
+    public void setDuplicateCount (int i){
+        duplicateCount = i;
+    }
+    public void increaseDuplicateCount(){
+        duplicateCount++;
+    }
     // Data; accessible by other package routines
     AnyType             element;  // The data in the node
     BinaryNode<AnyType> left;     // Left child
     BinaryNode<AnyType> right;    // Right child
     BinaryNode<AnyType> duplicate; //duplicate
+    int                 duplicateCount = 0;
 }

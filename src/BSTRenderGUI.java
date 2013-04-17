@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -117,8 +118,37 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
                     String ltr = Character.toString(letter);
                     tree.insert(ltr);
                 }
-                     System.out.println("Tree built")  ;
+                     System.out.println("Tree built");
+
+                ArrayList<BinaryNode> test = tree.printTreePreOrder();
+                String lookup = buildAString(test);
+                System.out.println("Pre Order: " + lookup);
+
             }
         }
+    }
+
+    public String buildAString (ArrayList<BinaryNode> nodes){
+        StringBuilder temp = new StringBuilder();
+
+        for (BinaryNode t : nodes){
+            temp.append(" " + t.getElement());
+            if(t.duplicate != null){
+
+
+                temp.append("*");
+            }
+        }
+
+        return temp.toString();
+
+    }
+
+    public <AnyType> int countDuplicates ( BinaryNode<AnyType> t){
+        if( t == null )
+            return 0;
+        else
+            return 1 + countDuplicates(t.duplicate);
+
     }
 }

@@ -140,8 +140,10 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             t.left = insert( x, t.left );
         else if( x.compareTo( t.element ) > 0 )
             t.right = insert( x, t.right );
-        else
+        else{
+            t.increaseDuplicateCount();
             t.duplicate = duplicate(x , t.duplicate);
+        }
         return t;
     }
     //throw new DuplicateItemException( x.toString( ) );  // Duplicate
@@ -154,6 +156,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
      * @throws DuplicateItemException if x is already present.
      */
     protected  BinaryNode<AnyType> duplicate(AnyType x, BinaryNode<AnyType> t){
+
         if (t == null){
             t = new BinaryNode<AnyType>(x);
         } else{
