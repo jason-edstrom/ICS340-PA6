@@ -53,7 +53,7 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
         tf_inpu.setLocation(50,7);
         tf_inpu.setSize(501,34);
         tf_inpu.setBackground( new Color(-1) );
-        tf_inpu.setText("");
+        tf_inpu.setText("aa");
         tf_inpu.setColumns(10);
         getContentPane().add(tf_inpu);
 
@@ -62,18 +62,20 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
         bt_Dra.setSize(90,32);
         bt_Dra.setLabel("Draw");
         getContentPane().add(bt_Dra);
+/*
 
         bt_BuildBS = new Button();
         bt_BuildBS.setLocation(280,47);
         bt_BuildBS.setSize(90,32);
         bt_BuildBS.setLabel("Build BST");
         getContentPane().add(bt_BuildBS);
+*/
 
 
-        bt_BuildBS.addActionListener(this);
+        //bt_BuildBS.addActionListener(this);
         bt_Dra.addActionListener(this);
 
-        setTitle("TreePaintGUI");
+        setTitle("BSTRenderGUI");
         setSize(567,150);
         setVisible(true);
         setResizable(true);
@@ -92,5 +94,31 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         Object obj = actionEvent.getSource();
         System.out.println(obj);
+
+
+        //Empty check
+        if (tf_inpu.getText().isEmpty() || tf_inpu.getText().length() == 0){
+            JFrame frame = new JFrame();
+            JOptionPane.showMessageDialog(frame,
+                    "Your input is empty.  Please add some text to the field.",
+                    "No Input Found",
+                    JOptionPane.ERROR_MESSAGE);
+
+        } else{
+
+            //Draw button logic
+            if ( obj == bt_Dra){
+                String input = new String (tf_inpu.getText());
+                char[] inputArray = input.toCharArray();
+
+                BinarySearchTree tree = new BinarySearchTree();
+
+                for (char letter : inputArray){
+                    String ltr = Character.toString(letter);
+                    tree.insert(ltr);
+                }
+                     System.out.println("Tree built")  ;
+            }
+        }
     }
 }

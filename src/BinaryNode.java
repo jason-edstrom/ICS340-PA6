@@ -21,7 +21,7 @@ class BinaryNode<AnyType>
     BinaryNode( AnyType theElement )
     {
         element = theElement;
-        left = right = null;
+        duplicate = left = right = null;
     }
 
     public AnyType getElement( )
@@ -112,4 +112,5 @@ class BinaryNode<AnyType>
     AnyType             element;  // The data in the node
     BinaryNode<AnyType> left;     // Left child
     BinaryNode<AnyType> right;    // Right child
+    BinaryNode<AnyType> duplicate; //duplicate
 }

@@ -141,7 +141,25 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         else if( x.compareTo( t.element ) > 0 )
             t.right = insert( x, t.right );
         else
-            throw new DuplicateItemException( x.toString( ) );  // Duplicate
+            t.duplicate = duplicate(x , t.duplicate);
+        return t;
+    }
+    //throw new DuplicateItemException( x.toString( ) );  // Duplicate
+
+    /**
+     * Internal method to handle duplicates into a subtree.
+     * @param x the item to insert.
+     * @param t the node that roots the tree.
+     * @return the new root.
+     * @throws DuplicateItemException if x is already present.
+     */
+    protected  BinaryNode<AnyType> duplicate(AnyType x, BinaryNode<AnyType> t){
+        if (t == null){
+            t = new BinaryNode<AnyType>(x);
+        } else{
+          t.duplicate = duplicate(x, t.duplicate);
+        }
+
         return t;
     }
 
@@ -271,6 +289,17 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             }
         }*/
        return binaryNodeArrayList;
+    }
+
+    public String buildAString (ArrayList<BinaryNode> nodes){
+        StringBuilder temp = new StringBuilder();
+
+        for (BinaryNode t : nodes){
+            temp.append(" " + t.getElement());
+        }
+
+        return temp.toString();
+
     }
 
     public String toString(){
