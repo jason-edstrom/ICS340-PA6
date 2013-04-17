@@ -24,6 +24,8 @@
 // ******************ERRORS********************************
 // Exceptions are thrown by insert, remove, and removeMin if warranted
 
+import java.util.ArrayList;
+
 /**
  * Implements an unbalanced binary search tree.
  * Note that all "matching" is based on the compareTo method.
@@ -236,34 +238,49 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return null;         // Not found
     }
 
+    public <AnyType> int getTreeSize (){
+        return root.size(root);
+    }
+
+    public <AnyType> int getTreeHeight(){
+        return root.height(root);
+    }
+
+    public ArrayList<BinaryNode> printTreePreOrder(){
+        ArrayList<BinaryNode> binaryNodeArrayList = new ArrayList<BinaryNode>() ;
+        root.printPreOrder(binaryNodeArrayList);
+        return binaryNodeArrayList;
+    }
+
+    public ArrayList<BinaryNode> printTreeInOrder(){
+        ArrayList<BinaryNode> binaryNodeArrayList = new ArrayList<BinaryNode>() ;
+        root.printInOrder(binaryNodeArrayList);
+        return binaryNodeArrayList;
+    }
+
+    public ArrayList<BinaryNode> printTreePostOrder(){
+        ArrayList<BinaryNode> binaryNodeArrayList = new ArrayList<BinaryNode>() ;
+        root.printPostOrder(binaryNodeArrayList);
+        /*
+        String postOrder =null;
+        for (BinaryNode node : binaryNodeArrayList){
+            if (postOrder == null){
+                 postOrder = node.getElement();
+            }else{
+            postOrder = postOrder + ", " + node.getElement();
+            }
+        }*/
+       return binaryNodeArrayList;
+    }
+
+    public String toString(){
+         String temp = null;
+
+        return temp;
+    }
     /** The tree root. */
     protected BinaryNode<AnyType> root;
 
 
-    // Test program
-    public static void main( String [ ] args )
-    {
-        BinarySearchTree<Integer> t = new BinarySearchTree<Integer>( );
-        final int NUMS = 4000;
-        final int GAP  =   37;
 
-        System.out.println( "Checking... (no more output means success)" );
-
-        for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
-            t.insert( i );
-
-        for( int i = 1; i < NUMS; i += 2 )
-            t.remove( i );
-
-        if( t.findMin( ) != 2 || t.findMax( ) != NUMS - 2 )
-            System.out.println( "FindMin or FindMax error!" );
-
-        for( int i = 2; i < NUMS; i += 2 )
-            if( t.find( i ) != i )
-                System.out.println( "Find error1!" );
-
-        for( int i = 1; i < NUMS; i += 2 )
-            if( t.find( i ) != null )
-                System.out.println( "Find error2!" );
-    }
 }
