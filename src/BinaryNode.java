@@ -22,6 +22,11 @@ class BinaryNode<AnyType>
     {
         element = theElement;
         duplicate = left = right = null;
+        x = -1;
+        y = -1;
+        hasDuplicate = false;
+        wasFound = false;
+        duplicateCount = 0;
     }
 
     public AnyType getElement( )
@@ -39,7 +44,7 @@ class BinaryNode<AnyType>
         return right;
     }
 
-    public <AnyType> int size( BinaryNode<AnyType> t )
+    public static <AnyType> int size( BinaryNode<AnyType> t )
     {
         if( t == null )
             return 0;
@@ -50,7 +55,7 @@ class BinaryNode<AnyType>
     /**
      * Return the height of the binary tree rooted at t.
      */
-    public <AnyType> int height( BinaryNode<AnyType> t )
+    public static <AnyType> int height( BinaryNode<AnyType> t )
     {
         if( t == null )
             return -1;
@@ -92,6 +97,19 @@ class BinaryNode<AnyType>
             right.printInOrder(binaryNodeArrayList );           // Right
     }
 
+    public void clearFound(){
+        if(left != null){
+            left.clearFound();   //Left
+        }
+            if (wasFound){
+                wasFound = false;    //clear wasFound
+            }
+
+        if(right != null){
+            right.clearFound(); //Right
+        }
+    }
+
     public void setElement( AnyType x )
     {
         element = x;
@@ -113,10 +131,39 @@ class BinaryNode<AnyType>
     public void increaseDuplicateCount(){
         duplicateCount++;
     }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public int getDepth(){
+        return depth;
+    }
+
+    public void setX(int _x){
+        x = _x;
+    }
+
+    public void setY(int _y){
+        y = _y;
+    }
+
+    public void setDepth(int _d){
+        depth = _d;
+    }
     // Data; accessible by other package routines
     AnyType             element;  // The data in the node
     BinaryNode<AnyType> left;     // Left child
     BinaryNode<AnyType> right;    // Right child
     BinaryNode<AnyType> duplicate; //duplicate
-    int                 duplicateCount = 0;
+    int                 duplicateCount;
+    private int x;
+    private int y;
+    private int depth;
+    boolean hasDuplicate;
+    boolean wasFound;
 }

@@ -142,6 +142,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             t.right = insert( x, t.right );
         else{
             t.increaseDuplicateCount();
+            t.hasDuplicate = true;
             t.duplicate = duplicate(x , t.duplicate);
         }
         return t;
@@ -246,14 +247,18 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
      */
     private BinaryNode<AnyType> find( AnyType x, BinaryNode<AnyType> t )
     {
+
         while( t != null )
         {
+
             if( x.compareTo( t.element ) < 0 )
                 t = t.left;
             else if( x.compareTo( t.element ) > 0 )
                 t = t.right;
-            else
+            else {
+                t.wasFound = true;
                 return t;    // Match
+            }
         }
 
         return null;         // Not found
@@ -265,6 +270,10 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
     public <AnyType> int getTreeHeight(){
         return root.height(root);
+    }
+
+    public void clearWasFound(){
+        root.clearFound();
     }
 
     public ArrayList<BinaryNode> printTreePreOrder(){
@@ -303,6 +312,10 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
         return temp.toString();
 
+    }
+
+    public BinaryNode <AnyType> getRoot (){
+        return root;
     }
 
     public String toString(){

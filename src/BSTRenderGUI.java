@@ -15,78 +15,86 @@ import java.util.ArrayList;
  */
 public class BSTRenderGUI extends JFrame implements ActionListener {
 
+    private JLabel lblInput = new JLabel("Input String: ");
+    private JLabel lblMessage = new JLabel(" ");
+    private JTextField jtfInput = new JTextField(40);
+    private JButton jbtDraw = new JButton("Draw");
+    private JButton jbtSearch = new JButton("Search");
+    private JButton jbtDelete = new JButton("Delete");
+    private JButton jbtString = new JButton("toString()");
+    private JButton jbtClear = new JButton("Clear Tree");
+    private JPanel inputPanel = new JPanel();
+    private JPanel drawPanel = new JPanel();
+    private JScrollPane jspDrawWindow;
+    private BinarySearchTree tree = new BinarySearchTree();
+    private int countX;
 
-    //GUI Build
-    JPanel untitled_5;
-    Label lbl_Input;
-    TextField tf_inpu;
-    Button bt_Dra;
-    Button bt_BuildBS;
-    JScrollPane jsp;
-
-    public BSTRenderGUI()
-    {
-        getContentPane().setLayout(null);
-        setupGUI();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public BSTRenderGUI(){
+        initComponents();
     }
-    void setupGUI()
-    {
-        untitled_5 = new JPanel();
-        untitled_5.setLocation(13,84);
-        untitled_5.setSize(538,451);
-        //untitled_5.setBackground( new Color(-1) );
-        //untitled_5.setText("");
-        //untitled_5.setRows(5);
-        //untitled_5.setColumns(5);
-        jsp = new JScrollPane(untitled_5);
-        getContentPane().add(jsp);
+
+    /**
+     * Build the UI
+     */
+    public void initComponents(){
+
+        inputPanel.setLayout(new GridBagLayout());
+        GridBagConstraints ip = new GridBagConstraints();
+        ip.insets = new Insets(5,5,0,5);
+        ip.gridx = 0;
+        ip.gridy = 0;
+        inputPanel.add(lblInput,ip);
+        ip.gridx++;
+        inputPanel.add(jtfInput,ip);
+        ip.gridx = 0;
+        ip.gridy++;
+        ip.gridwidth = 2;
+        ip.insets = new Insets(0,5,5,5);
+        jbtClear.setEnabled(false);
+        jbtDelete.setEnabled(false);
+        jbtString.setEnabled(false);
+        jbtSearch.setEnabled(false);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(jbtDraw);
+        buttonPanel.add(jbtSearch);
+        buttonPanel.add(jbtDelete);
+        buttonPanel.add(jbtString);
+        buttonPanel.add(jbtClear);
+        inputPanel.add(buttonPanel,ip);
+        inputPanel.setBorder(BorderFactory.createLineBorder(Color.gray));
+        jbtDraw.addActionListener(this);
+        jbtDelete.addActionListener(this);
+        jbtSearch.addActionListener(this);
+        jbtString.addActionListener(this);
+        jbtClear.addActionListener(this);
 
 
+        jspDrawWindow = new JScrollPane(drawPanel);
+        jspDrawWindow.setPreferredSize(new Dimension(600,300));
 
-        lbl_Input = new Label();
-        lbl_Input.setLocation(7,7);
-        lbl_Input.setSize(40,32);
-        lbl_Input.setText("Input:");
-        getContentPane().add(lbl_Input);
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(5,5,5,5);
 
-        tf_inpu = new TextField();
-        tf_inpu.setLocation(50,7);
-        tf_inpu.setSize(501,34);
-        tf_inpu.setBackground( new Color(-1) );
-        tf_inpu.setText("aa");
-        tf_inpu.setColumns(10);
-        getContentPane().add(tf_inpu);
+        c.gridx = 0;
+        c.gridy = 0;
+        add(inputPanel,c);
+        c.gridy++;
+        add(lblMessage,c);
+        c.gridy++;
+        add(jspDrawWindow,c);
 
-        bt_Dra = new Button();
-        bt_Dra.setLocation(155,46);
-        bt_Dra.setSize(90,32);
-        bt_Dra.setLabel("Draw");
-        getContentPane().add(bt_Dra);
-/*
-
-        bt_BuildBS = new Button();
-        bt_BuildBS.setLocation(280,47);
-        bt_BuildBS.setSize(90,32);
-        bt_BuildBS.setLabel("Build BST");
-        getContentPane().add(bt_BuildBS);
-*/
-
-
-        //bt_BuildBS.addActionListener(this);
-        bt_Dra.addActionListener(this);
-
-        setTitle("BSTRenderGUI");
-        setSize(567,150);
-        setVisible(true);
-        setResizable(true);
-
-
-
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        pack();
     }
+
     public static void main( String args[] )
     {
-        new BSTRenderGUI();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new BSTRenderGUI().setVisible(true);
+            }
+        });
     }
 
 
@@ -96,36 +104,115 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
         Object obj = actionEvent.getSource();
         System.out.println(obj);
 
+        if (obj == jbtDraw){
+            drawBST();
+        }
 
-        //Empty check
-        if (tf_inpu.getText().isEmpty() || tf_inpu.getText().length() == 0){
-            JFrame frame = new JFrame();
-            JOptionPane.showMessageDialog(frame,
-                    "Your input is empty.  Please add some text to the field.",
-                    "No Input Found",
-                    JOptionPane.ERROR_MESSAGE);
+        if (obj == jbtDelete){
+              deleteTreeNode();
+        }
 
-        } else{
+        if (obj == jbtSearch){
+            searchTree();
+        }
 
-            //Draw button logic
-            if ( obj == bt_Dra){
-                String input = new String (tf_inpu.getText());
-                char[] inputArray = input.toCharArray();
+        if (obj == jbtString){
 
-                BinarySearchTree tree = new BinarySearchTree();
+        }
 
-                for (char letter : inputArray){
-                    String ltr = Character.toString(letter);
-                    tree.insert(ltr);
+        if (obj == jbtClear){
+             clear();
+        }
+    }
+
+    private void deleteTreeNode() {
+        if(!jtfInput.getText().isEmpty()){
+            if (jtfInput.getText().length() > 1){
+                lblMessage.setForeground(Color.red);
+                lblMessage.setText("ERROR: Input needs to be a single character in order to delete the node.");
+            } else{
+                lblMessage.setText(" ");
+                lblMessage.repaint();
+                char[] input = jtfInput.getText().toLowerCase().toCharArray();
+                //createBST(input);
+                try{
+                    tree.remove(input[0]);
+                    BinaryNode root = tree.getRoot();
+                    countX = -1;
+                    setCoords(root, 0);
+                    TreePanel treePanel = new TreePanel(root);
+                    drawPanel.removeAll();
+                    drawPanel.add(treePanel);
+                    drawPanel.revalidate();
+                    drawPanel.repaint();
+                    lblMessage.setForeground(Color.green);
+                    lblMessage.setText("");
+                    tree.clearWasFound();
+                } catch (ItemNotFoundException e){
+                    lblMessage.setForeground(Color.red);
+                    lblMessage.setText("ERROR: \"" + input[0] + "\" was not found");
                 }
-                     System.out.println("Tree built");
 
-                ArrayList<BinaryNode> test = tree.printTreePreOrder();
-                String lookup = buildAString(test);
-                System.out.println("Pre Order: " + lookup);
 
+
+                }
+            }
+       // }
+        else{
+            lblMessage.setForeground(Color.red);
+            lblMessage.setText("ERROR: Input is empty.");
+        }
+    }
+
+    private void searchTree() {
+        if(!jtfInput.getText().isEmpty()){
+            if (jtfInput.getText().length() > 1){
+                lblMessage.setForeground(Color.red);
+                lblMessage.setText("ERROR: Input needs to be a single character in order to search.");
+            } else{
+            lblMessage.setText(" ");
+            lblMessage.repaint();
+            char[] input = jtfInput.getText().toLowerCase().toCharArray();
+
+            tree.find(input[0]);
+            if ((tree.find(input[0])) == null){
+                lblMessage.setForeground(Color.red);
+                lblMessage.setText("ERROR: \"" + input[0] + "\" was not found");
+            }else{
+            BinaryNode root = tree.getRoot();
+
+            countX = -1;
+            setCoords(root, 0);
+            TreePanel treePanel = new TreePanel(root);
+            drawPanel.removeAll();
+            drawPanel.add(treePanel);
+            drawPanel.revalidate();
+            drawPanel.repaint();
+            lblMessage.setForeground(Color.green);
+            lblMessage.setText("");
+            tree.clearWasFound();
+            }
             }
         }
+        else{
+            lblMessage.setForeground(Color.red);
+            lblMessage.setText("ERROR: Input is empty.");
+        }
+    }
+
+
+    private void clear() {
+        drawPanel.removeAll();
+        jbtClear.setEnabled(false);
+        jbtDelete.setEnabled(false);
+        jbtString.setEnabled(false);
+        jbtSearch.setEnabled(false);
+        jbtDraw.setEnabled(true);
+        drawPanel.revalidate();
+        drawPanel.repaint();
+        lblMessage.setForeground(Color.green);
+        lblMessage.setText("Tree and Results cleared");
+        tree.makeEmpty();
     }
 
     public String buildAString (ArrayList<BinaryNode> nodes){
@@ -151,4 +238,67 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
             return 1 + countDuplicates(t.duplicate);
 
     }
+
+
+    /**
+     * Adds coordinates to the nodes at the root provided and below. <br>
+     * These coordinates are used by the drawXtree methods above to plot<br>
+     * the nodes and edges on the draw window. Simply: the x-coordinate <br>
+     * is set counting through an in-order traversal and the y-coordinate<br>
+     * is set as the depth of the node.
+     * @param node root node to begin at
+     * @param depth depth to start from (typically 0)
+     */
+    public void setCoords(BinaryNode<Character> node, int depth){
+        if(node.getLeft() != null){
+            setCoords(node.getLeft(), depth+1);
+        }
+        node.setX(++countX);
+        node.setY(depth);
+        if(node.getRight() != null){
+            setCoords(node.getRight(), depth+1);
+        }
+    }
+
+
+    /**
+     * Draw a binary-search tree. Duplicate characters are simply ignored.
+     */
+    public void drawBST(){
+        if(!jtfInput.getText().isEmpty()){
+            lblMessage.setText(" ");
+            lblMessage.repaint();
+            char[] input = jtfInput.getText().toLowerCase().toCharArray();
+            createBST(input);
+            BinaryNode root = tree.getRoot();
+            countX = -1;
+            setCoords(root, 0);
+            TreePanel treePanel = new TreePanel(root);
+            drawPanel.removeAll();
+            drawPanel.add(treePanel);
+            jbtClear.setEnabled(true);
+            jbtDelete.setEnabled(true);
+            jbtString.setEnabled(true);
+            jbtSearch.setEnabled(true);
+            jbtDraw.setEnabled(false);
+            drawPanel.revalidate();
+            drawPanel.repaint();
+            lblMessage.setForeground(Color.green);
+            lblMessage.setText("Binary Search Tree for " + jtfInput.getText() + " in place: Search, toString, Delete or Clear");
+            jtfInput.setText("");
+        }
+        else{
+            lblMessage.setForeground(Color.red);
+            lblMessage.setText("ERROR: Input is empty.");
+        }
+    }
+
+    public void createBST(char[] a){
+        for (char letter : a){
+           // String ltr = Character.toString(letter);
+            tree.insert(letter);
+        }
+        System.out.println("Tree built");
+    }
+
 }
