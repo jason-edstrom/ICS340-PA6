@@ -117,13 +117,15 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
         }
 
         if (obj == jbtString){
-
+            printToString();
         }
 
         if (obj == jbtClear){
              clear();
         }
     }
+
+
 
     private void deleteTreeNode() {
         if(!jtfInput.getText().isEmpty()){
@@ -215,21 +217,7 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
         tree.makeEmpty();
     }
 
-    public String buildAString (ArrayList<BinaryNode> nodes){
-        StringBuilder temp = new StringBuilder();
 
-        for (BinaryNode t : nodes){
-            temp.append(" " + t.getElement());
-            if(t.duplicate != null){
-
-
-                temp.append("*");
-            }
-        }
-
-        return temp.toString();
-
-    }
 
     public <AnyType> int countDuplicates ( BinaryNode<AnyType> t){
         if( t == null )
@@ -293,12 +281,32 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
         }
     }
 
+    private void printToString(){
+             System.out.println(tree);
+    }
+
     public void createBST(char[] a){
         for (char letter : a){
            // String ltr = Character.toString(letter);
             tree.insert(letter);
         }
         System.out.println("Tree built");
+    }
+
+    public String buildAString (ArrayList<BinaryNode> nodes){
+        StringBuilder temp = new StringBuilder();
+
+        for (BinaryNode t : nodes){
+            temp.append(" " + t.getElement());
+            if(t.duplicate != null){
+
+
+                temp.append("*");
+            }
+        }
+
+        return temp.toString();
+
     }
 
 }

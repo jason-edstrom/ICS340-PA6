@@ -303,11 +303,20 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
        return binaryNodeArrayList;
     }
 
+    public ArrayList<BinaryNode> printTreeLevelOrder(){
+        ArrayList<BinaryNode> binaryNodeArrayList = new ArrayList<BinaryNode>() ;
+        root.printLevelOrder(root, binaryNodeArrayList);
+        return binaryNodeArrayList;
+    }
+
     public String buildAString (ArrayList<BinaryNode> nodes){
         StringBuilder temp = new StringBuilder();
 
         for (BinaryNode t : nodes){
             temp.append(" " + t.getElement());
+            if(t.duplicate != null){
+                temp.append("*");
+            }
         }
 
         return temp.toString();
@@ -319,12 +328,103 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     }
 
     public String toString(){
-         String temp = null;
-
-        return temp;
+        StringBuilder temp = new StringBuilder("");
+        temp.append("1. Number of Nodes: " + getTreeSize() + " nodes \n" );
+        temp.append("2. Number of Elements: " + getElementsCount() + " elements \n" );
+        temp.append("3. Tree Height: " + getTreeHeight() + " \n");
+        temp.append("4. Number of Internal Nodes: " + getInternalNodeCount() + " \n");
+        temp.append("5. Number of External Nodes: " + getExternalNodeCount() + " \n");
+        temp.append("6. Internal Path Length: " + getInternalPathLength() + " \n");
+        temp.append("7. Average Depth of the Nodes: " + getAverageDepth() + " \n");
+        temp.append("8. In-Order Traversal Path:" + buildAString(printTreeInOrder()) + " \n");
+        temp.append("9. Post-Order Traversal Path:" + buildAString(printTreePostOrder()) + " \n");
+        temp.append("10. Pre-Order Traversal Path:" + buildAString(printTreePreOrder()) + " \n");
+        temp.append("11. Level-Order Traversal Path:" + buildAString(printTreeLevelOrder()) + " \n");
+     return temp.toString();
     }
+
+    public int getExternalNodeCount() {
+
+    return externalNodeCount(root);
+    }
+
+     private int externalNodeCount(BinaryNode root){
+
+        // BinaryNode left = root.getLeft();
+
+
+         //BinaryNode right = root.getRight();
+
+         if (root == null){
+             return 0;
+         } else if ((root.getLeft() == null) && (root.getRight() == null) ){
+             return 1;
+         } else{
+         return externalNodeCount(root.getRight()) + externalNodeCount(root.getLeft());
+         }
+     }
+
+
+    public int getInternalNodeCount() {
+
+        return internalNodeCount(root);
+    }
+
+    private int internalNodeCount(BinaryNode root){
+        return getTreeSize() - getExternalNodeCount();
+    }
+
+
+
+    public int getElementsCount(){
+         return countElements(root);
+    }
+    private int countElements(BinaryNode root) {
+
+        BinaryNode duplicate = root.getDuplicate();
+        BinaryNode right = root.getRight();
+        BinaryNode left = root.getLeft();
+        int c = 1;
+        if (duplicate != null){
+            c += countElements(duplicate);
+        }
+        if (right != null){
+            c += countElements(right);
+        }
+        if (left != null){
+            c += countElements(left);
+
+        }
+
+        return c;
+    }
+    public int getInternalPathLength(){
+
+    return internalPathLength(root, 0);
+}
+    private int internalPathLength (BinaryNode<AnyType> root, int curLevel )
+    {
+      if (root == null){
+          return 0;
+      }
+     if ((root.getLeft() == null) &&  (root.getRight() == null)) {
+        return 0;
+    }
+        return curLevel + internalPathLength(root.getLeft(), curLevel+1) + internalPathLength(root.getRight(), curLevel +1);
+
+    }
+
+    public int getAverageDepth(){
+        return averageDepth();
+    }
+
+    private int averageDepth() {
+        return getInternalPathLength() / getTreeSize();
+    }
+
     /** The tree root. */
     protected BinaryNode<AnyType> root;
+
 
 
 

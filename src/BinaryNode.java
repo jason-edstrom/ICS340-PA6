@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created with IntelliJ IDEA.
@@ -97,6 +99,27 @@ class BinaryNode<AnyType>
             right.printInOrder(binaryNodeArrayList );           // Right
     }
 
+    public  void printLevelOrder(BinaryNode<AnyType> n, ArrayList<BinaryNode> binaryNodeArrayList)
+    {
+        Queue<BinaryNode<AnyType>> nodequeue = new LinkedList<BinaryNode<AnyType>>();
+        if (n != null)
+            nodequeue.add(n);
+        while (!nodequeue.isEmpty())
+        {
+            BinaryNode<AnyType> next = nodequeue.remove();
+            //System.out.print(next.data + " ");
+            binaryNodeArrayList.add(next);
+            if (next.getLeft() != null)
+            {
+                nodequeue.add(next.getLeft());
+            }
+            if (next.getRight() != null)
+            {
+                nodequeue.add(next.getRight());
+            }
+        }
+    }
+
     public void clearFound(){
         if(left != null){
             left.clearFound();   //Left
@@ -134,6 +157,10 @@ class BinaryNode<AnyType>
 
     public int getX(){
         return x;
+    }
+
+    public BinaryNode getDuplicate(){
+        return duplicate;
     }
 
     public int getY(){
