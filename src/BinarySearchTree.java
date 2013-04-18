@@ -330,16 +330,17 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     public String toString(){
         StringBuilder temp = new StringBuilder("");
         temp.append("1. Number of Nodes: " + getTreeSize() + " nodes \n" );
-        temp.append("2. Number of Elements: " + getElementsCount() + " elements \n" );
-        temp.append("3. Tree Height: " + getTreeHeight() + " \n");
-        temp.append("4. Number of Internal Nodes: " + getInternalNodeCount() + " \n");
-        temp.append("5. Number of External Nodes: " + getExternalNodeCount() + " \n");
-        temp.append("6. Internal Path Length: " + getInternalPathLength() + " \n");
-        temp.append("7. Average Depth of the Nodes: " + getAverageDepth() + " \n");
-        temp.append("8. In-Order Traversal Path:" + buildAString(printTreeInOrder()) + " \n");
-        temp.append("9. Post-Order Traversal Path:" + buildAString(printTreePostOrder()) + " \n");
-        temp.append("10. Pre-Order Traversal Path:" + buildAString(printTreePreOrder()) + " \n");
-        temp.append("11. Level-Order Traversal Path:" + buildAString(printTreeLevelOrder()) + " \n");
+        temp.append("\n2. Number of Elements: " + getElementsCount() + " elements \n" );
+        temp.append("\n3. Tree Height: " + getTreeHeight() + " \n");
+        temp.append("\n4. Number of Internal Nodes: " + getInternalNodeCount() + " \n");
+        temp.append("\n5. Number of External Nodes: " + getExternalNodeCount() + " \n");
+        temp.append("\n6. Internal Path Length: " + getInternalPathLength() + " \n");
+        temp.append("\n7. Average Depth of the Nodes: " + getAverageDepth() + " \n");
+        temp.append("\n8. In-Order Traversal Path:" + buildAString(printTreeInOrder()) + " \n");
+        temp.append("\n9. Post-Order Traversal Path:" + buildAString(printTreePostOrder()) + " \n");
+        temp.append("\n10. Pre-Order Traversal Path:" + buildAString(printTreePreOrder()) + " \n");
+        temp.append("\n11. Level-Order Traversal Path:" + buildAString(printTreeLevelOrder()) + " \n");
+        temp.append("\n\n       Asterisks ( * ) denote nodes with duplicates\n");
      return temp.toString();
     }
 
@@ -414,12 +415,21 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
     }
 
-    public int getAverageDepth(){
-        return averageDepth();
+    public double getAverageDepth(){
+        return round(averageDepth(),2);
     }
 
-    private int averageDepth() {
-        return getInternalPathLength() / getTreeSize();
+    private double averageDepth() {
+        return (double) getInternalPathLength() / getTreeSize();
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
     /** The tree root. */

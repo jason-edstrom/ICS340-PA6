@@ -283,6 +283,22 @@ public class BSTRenderGUI extends JFrame implements ActionListener {
 
     private void printToString(){
              System.out.println(tree);
+            String treeString = tree.toString();
+            JFrame jf = new JFrame ("toString()");
+            jf.setSize (450 , 450);
+            jf.setResizable(false);
+        jf.setLocationRelativeTo (null);
+        //JScrollPane scroll = new JScrollPane(new TreeCanvas (root, this));
+        //jf.add (scroll);
+        //JPanel jp = new JPanel();
+        JTextArea textAreal = new JTextArea(treeString, 5, 10);
+        textAreal.setPreferredSize(new Dimension(450, 450));
+        textAreal.setEditable(false);
+        jf.add(textAreal);
+        jf.setDefaultCloseOperation (WindowConstants.DISPOSE_ON_CLOSE);
+        jf.setVisible (true);
+
+
     }
 
     public void createBST(char[] a){
