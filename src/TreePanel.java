@@ -47,6 +47,8 @@ public class TreePanel extends JPanel{
 											 (a_root.getLeft().getX()*DIAMETER)+(DIAMETER/2), (a_root.getLeft().getY()*DIAMETER)+(DIAMETER/2)));
 			makePaintNodes(a_root.getLeft());
 		}
+
+        //Added logic for found and duplicates in the paintNode
 		paintNodes.add(new TreePaintNode((a_root.getX()*DIAMETER), (a_root.getY()*DIAMETER), DIAMETER, a_root.getElement(), a_root.hasDuplicate, a_root.duplicateCount, a_root.wasFound));
 		if(a_root.getRight() != null){
 			paintLines.add(new TreePaintLine((a_root.getX()*DIAMETER)+(DIAMETER/2), (a_root.getY()*DIAMETER)+(DIAMETER/2), 

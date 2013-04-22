@@ -64,7 +64,7 @@ public class TreePaintNode {
 	 */
 	public void display(Graphics g){
         if(wasFound){
-        g.setColor(Color.yellow);
+        g.setColor(Color.yellow);   //Paints yellow if node is found
         } else{
 		g.setColor(Color.white);
         }
@@ -73,7 +73,7 @@ public class TreePaintNode {
 		g.drawOval(xCoord,yCoord,diameter,diameter);
 		char[] ele = {element};
 		int offset = g.getFont().getSize()/4;
-        if (hasDuplicate){
+        if (hasDuplicate){        // Handles noting duplicates in the drawing
             String dupString = element + " : " + duplicateCount;
             g.drawString(dupString, xCoord+diameter/2-offset-7, yCoord+diameter/2+offset);
         }else{

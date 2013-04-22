@@ -99,6 +99,8 @@ class BinaryNode<AnyType>
             right.printInOrder(binaryNodeArrayList );           // Right
     }
 
+
+    //Level Order printing
     public  void printLevelOrder(BinaryNode<AnyType> n, ArrayList<BinaryNode> binaryNodeArrayList)
     {
         Queue<BinaryNode<AnyType>> nodequeue = new LinkedList<BinaryNode<AnyType>>();

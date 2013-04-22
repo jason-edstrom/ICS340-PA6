@@ -291,15 +291,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     public ArrayList<BinaryNode> printTreePostOrder(){
         ArrayList<BinaryNode> binaryNodeArrayList = new ArrayList<BinaryNode>() ;
         root.printPostOrder(binaryNodeArrayList);
-        /*
-        String postOrder =null;
-        for (BinaryNode node : binaryNodeArrayList){
-            if (postOrder == null){
-                 postOrder = node.getElement();
-            }else{
-            postOrder = postOrder + ", " + node.getElement();
-            }
-        }*/
+
        return binaryNodeArrayList;
     }
 
@@ -423,6 +415,8 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return (double) getInternalPathLength() / getTreeSize();
     }
 
+
+    //Rounding for average dpeth
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
